@@ -24,27 +24,20 @@ export const useTodoStore = defineStore("todos", () => {
     const todosMap = new Map();
     snapshot.docs.forEach(v => todosMap.set(v.id, { ...v.data(), id: v.id, editing: false }));
     todos.value = todosMap;
-    console.log("Somethgin happened", todos.value);
   });
 
   const addTodo = async (data: Pick<Todo, "text">) => {
-    if (!testCollectionRef) return false;
     await addDoc(testCollectionRef, { ...data, done: false, pos: new Date().getTime() });
-    return true;
   };
 
   const updateTodo = async (id: string, updatedTodoData: Omit<Todo, "id" | "editing">) => {
-    if (!testCollectionRef) return false;
     const todoRef = doc(testCollectionRef, id);
     await updateDoc(todoRef, updatedTodoData);
-    return true;
   };
 
   const deleteTodo = async (id: string) => {
-    if (!testCollectionRef) return false;
     const todoRef = doc(testCollectionRef, id);
     await deleteDoc(todoRef);
-    return true;
   };
 
   return { todos, addTodo, updateTodo, deleteTodo, unsubscribe };
