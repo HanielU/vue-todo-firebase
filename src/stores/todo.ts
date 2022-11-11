@@ -26,18 +26,17 @@ export const useTodoStore = defineStore("todos", () => {
     todos.value = todosMap;
   });
 
-  const addTodo = async (data: Pick<Todo, "text">) => {
-    await addDoc(testCollectionRef, { ...data, done: false, pos: new Date().getTime() });
+  const addTodo = (data: Pick<Todo, "text">) =>
+    addDoc(testCollectionRef, { ...data, done: false, pos: new Date().getTime() });
+
+  const updateTodo = (id: string, updatedTodoData: Omit<Todo, "id" | "editing">) => {
+    const todoRef = doc(testCollectionRef, id);
+    updateDoc(todoRef, updatedTodoData);
   };
 
-  const updateTodo = async (id: string, updatedTodoData: Omit<Todo, "id" | "editing">) => {
+  const deleteTodo = (id: string) => {
     const todoRef = doc(testCollectionRef, id);
-    await updateDoc(todoRef, updatedTodoData);
-  };
-
-  const deleteTodo = async (id: string) => {
-    const todoRef = doc(testCollectionRef, id);
-    await deleteDoc(todoRef);
+    deleteDoc(todoRef);
   };
 
   return { todos, addTodo, updateTodo, deleteTodo, unsubscribe };
