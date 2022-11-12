@@ -10,7 +10,7 @@
   <div class="p-8">
     <div class="border max-w-sm mx-auto [&_input]:text-black">
       <form
-        class="p-2.5 flex mb-2.5"
+        class="p-2.5 flex"
         @submit.prevent="
           store.addTodo({ text: todoText });
           todoText = '';
@@ -24,7 +24,7 @@
         <li
           v-for="todo in store.todos?.values()"
           :key="todo.id"
-          class="flex justify-between items-center px-2.5 py-1 border-(1 gray-1/50) mb-2"
+          class="flex justify-between items-center px-2.5 py-1 [&:not(:last-child)]:border-b-(1 gray-1/50)"
           :class="todo.done && 'opacity-50 line-through'"
         >
           <template v-if="!todo.editing">
